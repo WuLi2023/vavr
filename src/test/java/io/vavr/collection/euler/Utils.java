@@ -71,14 +71,20 @@ final class Utils {
         );
     }
 
+    /**
+     * 接受一个File对象作为输入，并返回一个Stream对象，其中包含了文件中的所有行
+     */
     static Stream<String> readLines(File file) {
         try {
+            // 使用了Vavr库提供的Stream.ofAll方法，将Iterator对象转换为Stream对象。可以用StreamSupport.stream(iterator, false)来替换它，以达到相同的结果。
             return Stream.ofAll(new Iterator<String>() {
 
+                // 使用Scanner对象读取文件的每一行，然后创建一个自定义的Iterator对象来迭代文件的每一行。
                 final Scanner scanner = new Scanner(file);
 
                 @Override
                 public boolean hasNext() {
+                    // 该Iterator对象的hasNext方法检查文件是否还有更多的行可读取，如果没有，则关闭Scanner对象，否则返回true。next方法返回下一行的内容。
                     final boolean hasNext = scanner.hasNextLine();
                     if (!hasNext) {
                         scanner.close();
@@ -92,6 +98,7 @@ final class Utils {
                 }
             });
         } catch (FileNotFoundException e) {
+            // 如果文件未找到，则方法返回一个空的Stream对象。
             return Stream.empty();
         }
     }

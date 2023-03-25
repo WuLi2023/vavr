@@ -40,10 +40,15 @@ public class Euler13Test {
         assertThat(solve()).isEqualTo("5537376230");
     }
 
+    /** 计算文件中所有数字的总和，并返回前10个数字。它使用BigInteger类来处理大数字，以避免精度丢失。 */
     private static String solve() {
+        // 将文件中的每行数字读入到一个Stream中。
         return readLines(file("p013_numbers.txt"))
+                // 使用map方法将每个字符串转换为一个BigInteger对象
                 .map(BigInteger::new)
+                // 使用fold方法将这些BigInteger对象加起来，得到一个总和。
                 .fold(BigInteger.ZERO, BigInteger::add)
+                // 将这个总和转换为一个字符串，并返回前10个数字作为结果。
                 .toString().substring(0, 10);
     }
 }
