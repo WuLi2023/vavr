@@ -42,11 +42,18 @@ final class Utils {
     static final Function1<Long, Boolean> MEMOIZED_IS_PRIME = Function1.of(Utils::isPrime).memoized();
 
     static Stream<BigInteger> fibonacci() {
-        return Stream.of(BigInteger.ZERO, BigInteger.ONE).appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
+        return Stream.of(BigInteger.ZERO, BigInteger.ONE)
+                .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
     }
 
+    /** 实现阶乘 */
     static BigInteger factorial(int n) {
-        return Stream.rangeClosed(1, n).map(BigInteger::valueOf).fold(BigInteger.ONE, BigInteger::multiply);
+        return Stream
+                // 生成从1到n的整数流
+                .rangeClosed(1, n)
+                .map(BigInteger::valueOf)
+                // 使用fold方法将所有BigInteger值乘起来，并返回结果
+                .fold(BigInteger.ONE, BigInteger::multiply);
     }
 
     static Stream<Long> factors(long number) {
@@ -67,8 +74,7 @@ final class Utils {
                 API.Case($(), n -> {
                     final double upperLimitToCheck = Math.sqrt(n);
                     return !PrimeNumbers.primes().takeWhile(d -> d <= upperLimitToCheck).exists(d -> n % d == 0);
-                })
-        );
+                }));
     }
 
     /**
@@ -76,7 +82,8 @@ final class Utils {
      */
     static Stream<String> readLines(File file) {
         try {
-            // 使用了Vavr库提供的Stream.ofAll方法，将Iterator对象转换为Stream对象。可以用StreamSupport.stream(iterator, false)来替换它，以达到相同的结果。
+            // 使用了Vavr库提供的Stream.ofAll方法，将Iterator对象转换为Stream对象。可以用StreamSupport.stream(iterator,
+            // false)来替换它，以达到相同的结果。
             return Stream.ofAll(new Iterator<String>() {
 
                 // 使用Scanner对象读取文件的每一行，然后创建一个自定义的Iterator对象来迭代文件的每一行。
@@ -124,9 +131,8 @@ final class Utils {
     }
 
     static Stream<Long> pentagonal() {
-        return Stream.of(Tuple.of(1L, 1)).appendSelf(self ->
-                self.map(t ->
-                        Tuple.of((t._2 + 1) * (3L * (t._2 + 1) - 1) / 2, t._2 + 1)))
+        return Stream.of(Tuple.of(1L, 1))
+                .appendSelf(self -> self.map(t -> Tuple.of((t._2 + 1) * (3L * (t._2 + 1) - 1) / 2, t._2 + 1)))
                 .map(t -> t._1);
     }
 
