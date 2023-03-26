@@ -45,9 +45,16 @@ public class Euler20Test {
         assertThat(sumOfFactorialDigits(100)).isEqualTo(9 + 3 + 3 + 2 + 6 + 2 + 1 + 5 + 4 + 4 + 3 + 9 + 4 + 4 + 1 + 5 + 2 + 6 + 8 + 1 + 6 + 9 + 9 + 2 + 3 + 8 + 8 + 5 + 6 + 2 + 6 + 6 + 7 + 0 + 0 + 4 + 9 + 0 + 7 + 1 + 5 + 9 + 6 + 8 + 2 + 6 + 4 + 3 + 8 + 1 + 6 + 2 + 1 + 4 + 6 + 8 + 5 + 9 + 2 + 9 + 6 + 3 + 8 + 9 + 5 + 2 + 1 + 7 + 5 + 9 + 9 + 9 + 9 + 3 + 2 + 2 + 9 + 9 + 1 + 5 + 6 + 0 + 8 + 9 + 4 + 1 + 4 + 6 + 3 + 9 + 7 + 6 + 1 + 5 + 6 + 5 + 1 + 8 + 2 + 8 + 6 + 2 + 5 + 3 + 6 + 9 + 7 + 9 + 2 + 0 + 8 + 2 + 7 + 2 + 2 + 3 + 7 + 5 + 8 + 2 + 5 + 1 + 1 + 8 + 5 + 2 + 1 + 0 + 9 + 1 + 6 + 8 + 6 + 4 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0);
     }
 
+    /** 计算阶乘 */
     private static BigInteger factorial(int n) {
         return Stream.rangeClosed(1, n)
                 .map(BigInteger::valueOf)
+                /* 
+                    将流中的元素按照某种规则聚合为一个结果
+                    将 stream 中的元素相乘，计算出阶乘的结果
+                    reduce() 方法接收一个 BinaryOperator 函数作为参数，这个函数将两个元素合并为一个元素
+                    使用的函数是 BigInteger::multiply，它是 BigInteger 类中的一个方法，用于将两个 BigInteger 对象相乘。
+                 */
                 .reduce(BigInteger::multiply);
     }
 
