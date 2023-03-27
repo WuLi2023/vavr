@@ -44,7 +44,10 @@ public class Euler16Test {
 
     private static long solve(int n) {
         return CharSeq.of(BigInteger.valueOf(2).pow(n).toString())
+                /* 将一个字符序列（CharSeq）中的每个字符转换为一个整数。
+                对于序列中的每个字符，它会减去字符 '0' 的 ASCII 码值，得到对应的整数值。
+                这个操作通过 lambda 表达式 (c -> c - '0') 完成，其中 c 是字符类型，c - '0' 表示将字符转换为整数。*/
                 .map(c -> c - '0')
-                .fold(0, (a, b) -> a + b);
+                .fold(0, Integer::sum);
     }
 }
