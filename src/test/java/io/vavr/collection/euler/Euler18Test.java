@@ -56,12 +56,20 @@ public class Euler18Test {
         return naive.apply(Euler67Test.loadTriangle(fileName), 0, 0);
     }
 
+    /**
+     * 计算给定二维向量中从(row,col)位置开始到底部的最大路径和，并返回该路径和的值
+     * 实现了一个朴素的递归算法，可能会在计算较大的输入时导致性能问题。在实际应用中，可能需要使用更高效的算法来解决这个问题。
+     */
     private final static Function3<Vector<Vector<Integer>>, Integer, Integer, Integer> naive = Function3.of(
+            /* 一个整数类型的二维向量tr，以及两个整数类型的参数row和col。 */
             (Vector<Vector<Integer>> tr, Integer row, Integer col) -> {
+                // 首先获取二维向量中(row,col) 位置的值并将其赋给变量value。
                 int value = tr.get(row).get(col);
+                // 然后，如果当前位置是向量的最后一行，则返回当前位置的值。
                 if (row == tr.length() - 1) {
                     return tr.get(row).get(col);
                 } else {
+                    // 否则，函数对象递归地调用自身，并将下一行的相邻两个位置的较大值与当前位置的值相加，返回结果作为当前位置的最大路径和。
                     return value + Math.max(Euler18Test.naive.apply(tr, row + 1, col), Euler18Test.naive.apply(tr, row + 1, col + 1));
                 }
             }
