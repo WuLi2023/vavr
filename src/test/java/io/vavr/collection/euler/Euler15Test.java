@@ -41,7 +41,7 @@ public class Euler15Test {
      */
     @Test
     public void shouldSolveProblem15() {
-        // (2n)! /n !*(2n-n)!
+        // (2n)! / n!*(2n-n)!
         assertThat(solve(2)).isEqualTo(6);
         assertThat(solve(20)).isEqualTo(137_846_528_820L);
     }
