@@ -40,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>
  * Find the sum of the digits in the number 100!
  * </p>
- *
+ * <p>
  * See also <a href="https://projecteuler.net/problem=20">projecteuler.net
  * problem 20</a>.
  */
@@ -60,7 +60,9 @@ public class Euler20Test {
                 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0);
     }
 
-    /** 计算阶乘 */
+    /**
+     * 计算阶乘
+     */
     private static BigInteger factorial(int n) {
         return Stream.rangeClosed(1, n)
                 .map(BigInteger::valueOf)
@@ -73,8 +75,14 @@ public class Euler20Test {
                 .reduce(BigInteger::multiply);
     }
 
+    /**
+     * 计算一个整数n的阶乘的各个位上数字之和
+     */
     private static int sumOfFactorialDigits(int n) {
+        // CharSeq.of(factorial(n).toString()).map(Character::getNumericValue).sum().intValue();
+        /* 先调用factorial(n)方法计算n的阶乘，然后将阶乘结果转换为字符串，再遍历字符串的每个字符，将每个字符转换为数字并求和。 */
         return CharSeq.of(factorial(n).toString())
+                // 使用累加器(sum)和当前字符(c)计算数字之和。
                 .foldLeft(0, (sum, c) -> sum + Character.digit(c, 10));
     }
 
