@@ -87,7 +87,6 @@ public class Euler18Test {
                 for (int i = 0; i < n; i++) {
                     // 初始化最后一行的最大路径和，将其设置为对应位置的值。
                     maxSum[n - 1][i] = tr.get(n - 1).get(i);
-
                 }
                 /* 从倒数第二行开始，逐行计算最大路径和，直到计算出整个三角形的最大路径和。 */
                 for (int i = n - 2; i >= 0; i--) {
