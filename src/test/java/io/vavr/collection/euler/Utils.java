@@ -46,7 +46,9 @@ final class Utils {
                 .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
     }
 
-    /** 实现阶乘 */
+    /**
+     * 实现阶乘
+     */
     static BigInteger factorial(int n) {
         return Stream
                 // 生成从1到n的整数流
@@ -56,9 +58,14 @@ final class Utils {
                 .fold(BigInteger.ONE, BigInteger::multiply);
     }
 
+    /*接受一个长整型作为参数，并返回一个长整型的流。
+      这个方法的作用是计算给定数字的所有因数，因数的计算方式是遍历从 1 到数字平方根的所有整数，
+      如果能整除数字，则将这个整数和数字除以这个整数的商加入到流中，并去除重复的元素。*/
     static Stream<Long> factors(long number) {
         return Stream.rangeClosed(1, (long) Math.sqrt(number))
+                // 筛选出能够整除该数的数字，即该数的因子。
                 .filter(d -> number % d == 0)
+                // 将每个因子 d 映射为包含 d 和 number/d 的 Stream，并使用 distinct() 方法去除重复的因子，最终返回一个包含所有因子的 Stream<Long>。
                 .flatMap(d -> Stream.of(d, number / d))
                 .distinct();
     }
