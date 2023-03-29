@@ -52,9 +52,12 @@ public class Euler22Test {
         assertThat(totalOfAllNameScores()).isEqualTo(871_198_282);
     }
 
+    /*接受一个字符串和一个长整型数作为参数，计算字符串的字母分数并乘以位置，最终返回一个长整型数。*/
     private static long nameScore(String name, long position) {
         return CharSeq.of(name)
+                // 将字符串中每个字符的 ASCII 码减去 'A' 的 ASCII 码再加一
                 .map(c -> c - 'A' + 1)
+                // 然后求和，再乘以位置值。
                 .sum().longValue() * position;
     }
 
@@ -63,6 +66,7 @@ public class Euler22Test {
                 .map(l -> l.replaceAll("\"", ""))
                 .flatMap(l -> Stream.of(l.split(",")))
                 .sorted()
+                // name+index
                 .zipWithIndex()
                 .map(t -> nameScore(t._1, t._2 + 1))
                 .sum().longValue();
