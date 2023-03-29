@@ -46,18 +46,29 @@ public class Euler21Test {
         assertThat(sumOfAmicablePairs(10000)).isEqualTo(31626);
     }
 
+    /* 计算正整数n的所有因数之和的方法 */
     private static int sumOfDivisors(int n) {
+        // 从2到n的平方根范围内找出n的除数
         return 1 + Stream.rangeClosed(2, (int) Math.sqrt(n))
+                // 然后将找到的数对（除数和商）过滤掉不是n的因数、且不是n本身的数对，
                 .map(d -> Tuple.of(d, n / d))
                 .filter(t -> t._1 * t._2 == n && !Objects.equals(t._1, t._2))
+                // 在剩下的数对中计算两个元素之和
                 .map(t -> t._1 + t._2)
-                .foldLeft(0, (sum, x) -> sum + x);
+                // 将它们相加得到n的所有因数之和
+                .foldLeft(0, Integer::sum);
     }
 
+    /*计算亲和数对之和*/
     private static int sumOfAmicablePairs(int n) {
+        // 计算一个数的真因数之和，并使用memoized方法缓存结果，以提高效率。
         final Function1<Integer, Integer> mSumOfDivisors = Function1.of(Euler21Test::sumOfDivisors).memoized();
-        return Stream.range(1, n)
+        return Stream
+                // 生成一个从1到n（不包括n）的整数流，其中n是要检查的最大数
+                .range(1, n)
+                // 真因数之和的真因数之和等于它本身，并且它的真因数之和大于它本身。这样可以避免重复计算亲和数对。
                 .filter(x -> mSumOfDivisors.apply(mSumOfDivisors.apply(x)).intValue() == x && mSumOfDivisors.apply(x) > x)
+                // 将过滤后的流中的所有数相加，并加上它们的真因数之和，得到最终结果。
                 .foldLeft(0, (sum, x) -> sum + x + mSumOfDivisors.apply(x));
     }
 
