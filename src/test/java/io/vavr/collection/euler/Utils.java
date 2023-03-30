@@ -41,9 +41,21 @@ final class Utils {
 
     static final Function1<Long, Boolean> MEMOIZED_IS_PRIME = Function1.of(Utils::isPrime).memoized();
 
+    /**
+     * 实现了一个生成斐波那契数列的方法。这个算法的时间复杂度是 O(n)，可以高效地生成任意长度的斐波那契数列。
+     */
     static Stream<BigInteger> fibonacci() {
+        /* 初始时包含了 0 和 1 两个斐波那契数列的初始值。*/
         return Stream.of(BigInteger.ZERO, BigInteger.ONE)
-                .appendSelf(self -> self.zip(self.tail()).map(t -> t._1.add(t._2)));
+                // 然后使用 appendSelf 方法对该流进行扩展，每次在流的末尾添加一个新的元素，该元素的值为前两个元素之和，通过 zip 和 map 方法实现。
+                .appendSelf(self -> self
+                        /*将当前流和当前流的尾部流（去掉第一个元素的子流）进行配对（pairing），返回一个新的流，
+                        其中每个元素都是一个二元组（Tuple），第一个元素是当前流的元素，第二个元素是当前流的尾部流对应位置的元素。
+                        将斐波那契数列的当前元素和下一个元素进行配对，生成一个新的流。
+                        这个流的每个元素都是一个二元组，第一个元素是当前斐波那契数列元素，第二个元素是下一个斐波那契数列元素。*/
+                        .zip(self.tail())
+                        // 将每个二元组转换成它们的和，就得到了一个新的斐波那契数列流
+                        .map(t -> t._1.add(t._2)));
     }
 
     /**

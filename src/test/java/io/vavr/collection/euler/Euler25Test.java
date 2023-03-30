@@ -59,10 +59,18 @@ public class Euler25Test {
         assertThat(firstFibonacciTermContaining(1000)).isEqualTo(4782);
     }
 
+    /**
+     * 实现了一个查找第一个包含指定数位数的斐波那契数列项的方法。
+     * <p>时间复杂度是 O(n)，其中 n 是第一个满足条件的斐波那契数列项的索引值。由于斐波那契数列的增长速度非常快，因此在实际使用中可能会出现性能问题。</p>
+     */
     private static int firstFibonacciTermContaining(int digits) {
+        // 使用 fibonacci() 方法生成一个斐波那契数列的流
         return fibonacci()
+                // 使用 zipWithIndex() 方法将该流中的每个元素和它的索引值进行配对，生成一个新的流。
                 .zipWithIndex()
+                // 使用 find() 方法在该流中查找第一个满足条件的元素，条件为该元素的字符串表示的长度等于指定的 digits 参数。
                 .find(t -> t._1.toString().length() == digits)
+                // 获取该元素在原始流中的索引值，作为结果返回。
                 .get()._2;
     }
 }
