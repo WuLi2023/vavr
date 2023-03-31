@@ -37,8 +37,14 @@ final class Utils {
     private Utils() {
     }
 
+    /**
+     * 实现了一个生成阶乘的方法。这个算法的时间复杂度是 O(n)，可以高效地生成任意长度的阶乘序列。
+     */
     static final Function1<Integer, BigInteger> MEMOIZED_FACTORIAL = Function1.of(Utils::factorial).memoized();
 
+    /**
+     * 实现了一个生成素数的方法。这个算法的时间复杂度是 O(n^2)，可以高效地生成任意长度的素数序列。
+     */
     static final Function1<Long, Boolean> MEMOIZED_IS_PRIME = Function1.of(Utils::isPrime).memoized();
 
     /**
@@ -82,8 +88,15 @@ final class Utils {
                 .distinct();
     }
 
+    /**
+     * 接受一个长整型作为参数，并返回一个长整型的流。
+     * 这个方法的作用是计算给定数字的所有真因数，真因数的计算方式是遍历从 1 到数字平方根的所有整数，
+     * 如果能整除数字，则将这个整数加入到流中，并去除重复的元素。
+     */
     static Stream<Long> divisors(long l) {
-        return factors(l).filter((d) -> d < l);
+        return factors(l)
+                // 筛选出真因子，即不包含数字本身的因子。（过滤掉任何等于或大于l的因数）
+                .filter((d) -> d < l);
     }
 
     static boolean isPrime(long val) {
