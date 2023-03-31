@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *             18  5  4  3 12
  *             17 16 15 14 13
  * </pre>
- *
+ * <p>
  * It can be verified that the sum of the numbers on the diagonals is 101.
  * <p>
  * What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral
@@ -54,27 +54,55 @@ public class Euler28Test {
         assertThat(sumOfDiagonalInSpiralWithSide(1001)).isEqualTo(669_171_001);
     }
 
+    /**
+     * 返回以螺旋形排列的正方形的对角线数字的和。
+     */
     private static long sumOfDiagonalInSpiralWithSide(long maxSideLength) {
-        return diagonalNumbersInSpiralWithSide(maxSideLength).sum().longValue();
+        // 获取以螺旋形排列的正方形的对角线数字
+        return diagonalNumbersInSpiralWithSide(maxSideLength)
+                // 使用Stream.sum方法计算对角线数字的和。
+                .sum().longValue();
     }
 
+    /**
+     * 返回一个流，该流包含正方形的对角线数字（以螺旋形排列的正方形的对角线数字）。
+     */
     private static Stream<Long> diagonalNumbersInSpiralWithSide(long maxSideLength) {
+        /*使用Stream.iterate方法生成一个无限流，
+          该流从一个元组(1, center())开始，
+          每次调用nextSideLength和nextRoundOfCorners方法来计算下一个元组，
+          其中第一个元素是当前正方形的边长，
+          第二个元素是当前正方形的对角线数字。*/
         return Stream.iterate(Tuple.of(1, center()), t -> Tuple.of(nextSideLength(t._1), nextRoundOfCorners(t._2.last(), nextSideLength(t._1))))
+                // 使用Stream.takeWhile方法取前面的元组，直到当前正方形的边长大于maxSideLength。
                 .takeWhile(t -> t._1 <= maxSideLength)
+                // 使用Stream.flatMap方法将每个元组的第二个元素（即当前正方形的对角线数字）作为一个流返回。
                 .flatMap(t -> t._2);
     }
 
+    /**
+     * 返回一个流，该流包含正方形的中心。
+     */
     private static Stream<Long> center() {
         return Stream.of(1L);
     }
 
+    /**
+     * 如果当前正方形的边长为n，则该方法将返回n+2，即下一个正方形的边长。
+     */
     private static int nextSideLength(int currentSideLength) {
         return currentSideLength + 2;
     }
 
+    /**
+     * 计算了当前正方形的四个角落的下一个正方形的角落的值，并将它们作为一个流返回。
+     */
     private static Stream<Long> nextRoundOfCorners(long previousCorner, int currentSideLength) {
+        // 使用Stream.iterate方法生成一个无限流，该流从previousCorner开始，每次增加currentSideLength-1。
         return Stream.iterate(previousCorner, n -> n + currentSideLength - 1)
+                // 从第二个元素开始，取前4个元素。使用Stream.drop方法跳过第一个元素（即previousCorner）
                 .drop(1)
+                // 使用Stream.take方法取前4个元素，即表示下一轮四个角落的值。
                 .take(4);
     }
 }
