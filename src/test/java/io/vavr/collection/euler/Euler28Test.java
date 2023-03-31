@@ -48,6 +48,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class Euler28Test {
 
+    /*数字螺旋矩阵的生成方式可以有多种，其中包括从左向右、从上向下、从右向左、从下向上、从左上向右下等方式。
+      因此，不同的生成方式会得到不同的数字螺旋矩阵。
+      对于不同的数字螺旋矩阵，其对角线元素之和的计算方法可能会有所不同。
+      此数字螺旋矩阵的生成方式是从左上向右下*/
     @Test
     public void shouldSolveProblem28() {
         assertThat(sumOfDiagonalInSpiralWithSide(5)).isEqualTo(101);
