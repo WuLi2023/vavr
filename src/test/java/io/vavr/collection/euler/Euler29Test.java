@@ -51,10 +51,17 @@ public class Euler29Test {
         assertThat(cnt(100)).isEqualTo(9183);
     }
 
+    /**
+     * 计算在2到max之间的两个整数a和b的幂a^b的不同结果的数量
+     */
     private static int cnt(int max) {
+        // 生成一个从2到max的整数流
         return Stream.rangeClosed(2, max)
+                // 将流中的每个整数a转换为一个BigInteger对象。
                 .map(BigInteger::valueOf)
+                // 将流中的每个BigInteger对象a转换为一个流，该流包含a的2到max次幂。将结果流展平为单个BigInteger对象流。
                 .flatMap(a -> Stream.rangeClosed(2, max).map(a::pow))
+                // 从BigInteger对象流中删除重复项。
                 .distinct()
                 .length();
     }
