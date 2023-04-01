@@ -19,14 +19,23 @@
 package io.vavr.collection.euler;
 
 import io.vavr.Tuple;
-import io.vavr.collection.CharSeq;
 import io.vavr.Tuple3;
+import io.vavr.collection.CharSeq;
 import io.vavr.collection.List;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Euler32Test {
+
+    /*解题的核心在于缩小搜寻乘数和被乘数的范围。
+      经过简单的分析只有当乘数是一位或两位数，对应被乘数是四位或三位数时，乘积是四位数，从而三者加起来共有九位数。
+      由于乘法满足交换律，我们要避免进行重复核对，假设的所求的乘数和被乘数为i与j且i<j，则i的筛选范围是[1,99]。
+      如果i是一位数，则j的范围是[1234,10^4/i)；如果i是两位数，则j的范围是[123,10^4/i)。*/
+
+    /*确定筛选范围后，我们将乘数、被乘数和乘积转化为字条串并拼接在一起，
+      如果形成的字符串长度为9且包含从一至九的所有数字，则该乘积满足条件，
+      从而添加到所求结果的集合中，避免出现重复的乘积结果，最后对集体加总即为所求。*/
 
     /**
      * <strong>Problem 23 Pandigital products</strong>
