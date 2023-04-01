@@ -40,10 +40,21 @@ public class Euler31Test {
         assertThat(coinSums(200, coins)).isEqualTo(73682);
     }
 
+    /**
+     * 递归地计算可以组成n元的硬币组合的数量。
+     * 计算使用给定的硬币组成面值为n的钱数的不同方式的数量，并将其作为一个int类型的值返回。
+     *
+     * @param n     要组成的金额
+     * @param coins 可用的硬币列表，该列表表示不同硬币的面值。
+     * @return 可以组成n元的硬币组合的数量
+     */
     private static int coinSums(int n, List<Integer> coins) {
+        // 首先检查n是否为0，如果是，则返回1，表示使用0个硬币组成0元的方式只有一种：即不使用任何硬币。
         return (n == 0) ? 1 :
-               (n < 0 || coins.isEmpty()) ? 0 :
-               coinSums(n, coins.tail()) + coinSums(n - coins.head(), coins);
+                // 如果n小于0，或者硬币列表为空，则返回0，表示没有任何硬币可以组成n元。
+                (n < 0 || coins.isEmpty()) ? 0 :
+                        // 将递归地调用自身两次，一次是不使用coins列表的第一个硬币，另一次是使用coins列表的第一个硬币，然后将这两个结果相加。
+                        coinSums(n, coins.tail()) + coinSums(n - coins.head(), coins);
     }
 
 }
