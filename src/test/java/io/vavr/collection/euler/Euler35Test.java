@@ -44,8 +44,13 @@ public class Euler35Test {
         assertThat(circularPrimes(1000000)).isEqualTo(55);
     }
 
+    /**
+     * 求小于 n 的循环质数的个数
+     */
     private static int circularPrimes(int n) {
+        // 将 isPrime 方法转换为 Function1，然后调用 memoized 方法，将其转换为一个记忆化的函数。
         final Predicate<Integer> memoizedIsPrime = Function1.of(Euler35Test::isPrime).memoized()::apply;
+        // 生成一个从 2 到 n 的整数序列，然后过滤掉不是质数的数，再过滤掉旋转后不是质数的数，最后返回序列的长度。
         return Stream.rangeClosed(2, n)
                 .filter(memoizedIsPrime)
                 .map(Euler35Test::rotations)
@@ -53,16 +58,24 @@ public class Euler35Test {
                 .length();
     }
 
+    /**
+     * 判断一个整数是否为质数
+     */
     private static boolean isPrime(int n) {
+        // 判断这个数是否等于 2，如果是，则返回 true，因为 2 是质数。判断它是否为偶数，如果是，则返回 false，因为偶数不可能是质数。
         return n == 2 || n % 2 != 0 &&
+                // 生成一个从 3 到 sqrt(n) 的奇数序列，并且步长为 2，即只包含奇数。
                 Stream.rangeClosedBy(3, (int) Math.sqrt(n), 2)
+                        // 判断序列中的每个数是否能整除 n，如果有一个数能整除 n，则 n 不是质数，返回 false。
                         .find(x -> n % x == 0)
+                        // 如果序列中的每个数都不能整除 n，则 n 是质数，返回 true。
                         .isEmpty();
     }
 
     private static List<Integer> rotations(int n) {
         final CharSeq seq = CharSeq.of(String.valueOf(n));
         return Stream.range(0, seq.length())
+                // 对字符序列的每个位置 i，将其后面的所有字符移至序列的开头，再将序列转换为整数，即得到一个旋转数。
                 .map(i -> seq.drop(i).appendAll(seq.take(i)))
                 .map(s -> Integer.valueOf(s.toString()))
                 .toList();
