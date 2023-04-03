@@ -77,6 +77,7 @@ public class Euler35Test {
         return Stream.range(0, seq.length())
                 // 对字符序列的每个位置 i，将其后面的所有字符移至序列的开头，再将序列转换为整数，即得到一个旋转数。
                 .map(i -> seq.drop(i).appendAll(seq.take(i)))
+                // 将旋转数转换为整数，然后将其转换为一个 List。
                 .map(s -> Integer.valueOf(s.toString()))
                 .toList();
     }
