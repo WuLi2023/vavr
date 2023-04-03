@@ -44,12 +44,21 @@ public class Euler36Test {
                 .sum().intValue();
     }
 
+    /**
+     * 提取字符串的前导和后导字符 '0'，并删除它们，然后检查这个新字符串是否是前后对称的（回文）。
+     */
     private static boolean isPalindrome(CharSeq seq) {
+        // dropWhile(c -> c == '0') removes leading zeros
         return seq.dropWhile(c -> c == '0').equals(seq.reverse().dropWhile(c -> c == '0'));
     }
 
+    /**
+     * 检查一个整数是否在二进制和十进制下都是回文的
+     */
     private static boolean isDoubleBasePalindrome(int x) {
+        // seq 对象用于将整数转换为十进制字符串。
         final CharSeq seq = CharSeq.of(Integer.toString(x));
+        // rev 对象用于将整数转换为二进制字符串。
         final CharSeq rev = CharSeq.of(Integer.toBinaryString(x));
         return isPalindrome(seq) && isPalindrome(rev);
     }
