@@ -100,10 +100,12 @@ final class Utils {
     }
 
     static boolean isPrime(long val) {
+        // 使用Vavr的模式匹配功能，对val的值进行匹配，如果val小于2，则返回false，如果val等于2，则返回true，否则执行后面的代码。
         return API.Match(val).of(
                 API.Case($(n -> n < 2L), false),
                 API.Case($(2L), true),
                 API.Case($(), n -> {
+                    // 计算数字的平方根，作为遍历的上限。
                     final double upperLimitToCheck = Math.sqrt(n);
                     return !PrimeNumbers.primes().takeWhile(d -> d <= upperLimitToCheck).exists(d -> n % d == 0);
                 }));
