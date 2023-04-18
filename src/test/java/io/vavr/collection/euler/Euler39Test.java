@@ -72,19 +72,19 @@ public class Euler39Test {
       List.rangeClosed(1, 22).flatMap(a -> List.rangeClosed(a, (int) Math.sqrt(1000-a*a)).map(b -> Tuple.of(a, b, hypot(a, b))))...*/
 
     /**
-     * 生成一个包含所有周长不超过1000的勾股三元组的映射。勾股三元组是一组满足a^2 + b^2 = c^2的三个整数(a, b, c)。
+     * 生成一个包含所有周长不超过1000的勾股三元组的映射。勾股三元组是一组满足a^2 + b^2 = c^2的三个整数(a, b, c)
      */
     private static final Map<Integer, List<Tuple3<Integer, Integer, Integer>>> SOLUTIONS_FOR_PERIMETERS_UP_TO_1000
             = List.rangeClosed(1, 500)
-            // 生成所有可能的整数对 (a, b)，其中 a 和 b 是从1到500（包括1和500）的整数。
+            // 生成所有可能的整数对 (a, b)，其中 a 和 b 是从1到500（包括1和500）的整数
             .flatMap(a -> List.rangeClosed(a, 500)
                     .map(b -> Tuple.of(a, b, hypot(a, b))))
-            // 过滤掉所有不是整数的直角三角形的整数对 (a, b, c)。
+            // 过滤掉所有不是整数的直角三角形的整数对 (a, b, c)
             .filter(t -> floor(t._3) == t._3)
-            // 将每个元组的第三个值从 Double 转换为 Integer。
+            // 将每个元组的第三个值从 Double 转换为 Integer
             .map(t -> t.map3(Double::intValue))
-            // 将这些元组按照它们的(a + b + c)之和分组。
+            // 将这些元组按照它们的(a + b + c)之和分组
             .groupBy(t -> t.apply((a, b, c) -> a + b + c))
-            // 过滤掉键（即 a + b + c 的总和）大于1000 的情况。
+            // 过滤掉键（即 a + b + c 的总和）大于1000 的情况
             .filterKeys(d -> d <= 1_000);
 }
