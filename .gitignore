@@ -25,3 +25,4 @@ out/
 
 # -- VAVR build files
 generator/bin/
+.trunk/
