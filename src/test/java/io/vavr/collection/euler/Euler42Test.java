@@ -66,6 +66,8 @@ public class Euler42Test {
         assertThat(numberOfTriangleNumbersInFile()).isEqualTo(162);
     }
 
+    /*如果一个单词的单词值是一个三角数，我们就称这个单词是三角单词。*/
+
     /*  这段代码是一个Java方法，它的作用是读取一个文件中的单词，并计算其中三角形数单词的数量。具体实现步骤如下：
 
         1. 使用file()方法获取指定文件的路径。
