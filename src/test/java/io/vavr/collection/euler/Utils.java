@@ -164,13 +164,25 @@ final class Utils {
         return isPalindrome(Long.toString(val));
     }
 
+    // 该方法返回一个Stream<Long>对象，生成五边形数序列
     static Stream<Long> pentagonal() {
+        // 仅包含（1L, 1）的新stream
         return Stream.of(Tuple.of(1L, 1))
-                .appendSelf(self -> self.map(t -> Tuple.of((t._2 + 1) * (3L * (t._2 + 1) - 1) / 2, t._2 + 1)))
+                // 不断地将当前元素映射为下一个元素
+                .appendSelf(self ->
+                        // 对于当前元素(t._2 + 1)，计算出它的下一个五边形数((t._2+1)*(3*(t._2+1)-1)/2)，并将其包装成Tuple(Long类型的五边形数值和Integer类型的五边形数编号)
+                        self.map(t -> Tuple.of((t._2 + 1) * (3L * (t._2 + 1) - 1) / 2, t._2 + 1)))
+                // 取出每个Tuple中的五边形数值(Long类型)，组成新的stream
                 .map(t -> t._1);
     }
 
+    /**
+     * 判断一个数是否是五边形数
+     * @param number 待判断的数字
+     * @return 如果该数字是五边形数，则返回 true；否则返回 false。
+     */
     static boolean isPentagonal(long number) {
-        return ((1 + Math.sqrt(1 + 24 * number)) / 6) % 1 == 0;
+            // 通过公式计算判断是否为五边形数，返回结果
+            return ((1 + Math.sqrt(1 + 24 * number)) / 6) % 1 == 0;
     }
 }
