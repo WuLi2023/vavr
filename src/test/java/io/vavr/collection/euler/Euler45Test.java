@@ -39,7 +39,7 @@ public class Euler45Test {
      * It can be verified that T285 = P165 = H143 = 40755.
      * Find the next triangle number that is also pentagonal and hexagonal.
      * </p>
-     *
+     * <p>
      * See also <a href="https://projecteuler.net/problem=45">projecteuler.net
      * problem 45</a>.
      */
@@ -62,21 +62,52 @@ public class Euler45Test {
                 .isEqualTo(1533776805L);
     }
 
-    private static final Stream<Long> HEXAGONAL = Stream.from(2L).map(i -> i*(2*i -1));
+    /*  分析：这道题目相对比较简单直接。
+        首先可以观察到一个六边形数即是一个奇数位置的三角数，比如1是第一个三角形数，6是第三个三角形数，15是第五个三角形数。
+        事实上，对任意奇数(2n−1)，将其代入三角形数的通项有：(2n−1)(2n−1+1)/2=n(2n−1) 即是一个六边形数。
+        所以六边形数只是三角形数的子集，当一个数是六边形数，我们无需再验证它是否是三角形数。
+        在上一道题即第四十四题中，我们已经编写了一个判断一个数是否为五边形数的函数，这里可以直接复用。
+        我们从 n=144 开始依次生成六边形数，再判断生成的数是否为五边形数，如果不是再生成下一个数，如果是则返回该六边形数，即为所求。*/
+
+    // 定义一个名为HEXAGONAL的常量流(Stream)，类型为Long
+    private static final Stream<Long> HEXAGONAL =
+            // 创建一个从2L开始的无限正整数序列流(Stream)
+            Stream.from(2L)
+                    // 将每个元素i乘以(2 * i - 1)得到六边形数列，并将结果映射到新流中
+                    .map(i -> i * (2 * i - 1));
 
     private static boolean isPentagonal(long i) {
         // If a number k is pentagonal then n(3n−1)/2 = k; for some integer n
         // by the quadratic formula (1+sqrt(1+4*3*2k))/6 = n
-        long discriminant = 1+24*i;
+        // 如果一个数k是五边形数，则存在整数n，使得 n(3n-1)/2=k
+        // 根据一元二次方程的求解公式：(1+sqrt(1+4*3*2k))/6 = n
+        long discriminant = 1 + 24 * i; // 判别式
         return isPerfectSquare(discriminant) && (1 + flooredRoot(discriminant)) % 6 == 0;
+        // 首先判断判别式是否为完全平方数，然后再验证n是否为整数，并且满足模6余1或者模6余5的条件
     }
 
+    /**
+     * 判断是否为完全平方数
+     *
+     * @param i 要判断的数
+     * @return boolean类型，如果是完全平方数，则返回true；否则，返回false
+     */
     private static boolean isPerfectSquare(long i) {
+        // 取i的平方根向下取整
         long sqrtFloor = flooredRoot(i);
-        return sqrtFloor*sqrtFloor == i;
+        // 判断该平方根是否是实际完全平方数的平方值
+        return sqrtFloor * sqrtFloor == i;
     }
 
+    /**
+     * 计算一个数的整数开方向下取整的结果。
+     *
+     * @param i 要取整数开方的数
+     * @return 整数开方向下取整的结果
+     */
     private static long flooredRoot(long i) {
-        return (long)Math.sqrt(i+0.5);
+        // 在原数上加上 0.5，使其不会因为浮点数误差而被错误地舍入。
+        // 然后对结果进行平方根运算，使用强制类型转换将其转为 long 类型并返回。
+        return (long) Math.sqrt(i + 0.5);
     }
 }
