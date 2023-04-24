@@ -18,6 +18,7 @@
  */
 package io.vavr.collection.euler;
 
+import io.vavr.Function1;
 import io.vavr.Tuple;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Set;
@@ -45,6 +46,8 @@ final class PrimeNumbers {
                     .getOrElse(HashMap::empty);
         }
     }
+
+    static final Function1<Long, Stream<Long>> MEMOIZED_PRIME_FACTORS = Function1.of(PrimeNumbers::primeFactors).memoized();
 
     static Stream<Long> primeFactors(long num) {
         return Stream.rangeClosed(2L, (int) Math.sqrt(num))

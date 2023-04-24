@@ -42,6 +42,7 @@ final class Utils {
      */
     static final Function1<Integer, BigInteger> MEMOIZED_FACTORIAL = Function1.of(Utils::factorial).memoized();
 
+
     /**
      * 实现了一个生成素数的方法。这个算法的时间复杂度是 O(n^2)，可以高效地生成任意长度的素数序列。
      */
