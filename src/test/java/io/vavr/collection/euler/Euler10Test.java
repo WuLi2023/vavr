@@ -43,6 +43,6 @@ public class Euler10Test {
         return PrimeNumbers.primes()
                 .map(Long::valueOf)
                 .takeWhile(t -> t < max)
-                .reduce((p1, p2) -> p1 + p2);
+                .reduce(Long::sum);
     }
 }
